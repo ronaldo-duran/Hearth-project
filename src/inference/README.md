@@ -42,6 +42,26 @@ formato **crudo** (`Male`, `asymptomatic`, `reversable`…) y el propio pipeline
 de imputar, escalar y codificar. No hay ninguna transformación replicada a mano en la app,
 que es justamente lo que evita que la demo y el entrenamiento se desincronicen.
 
+## Publicar en Streamlit Community Cloud
+
+El repositorio ya cumple los requisitos: es público, los `.joblib` están versionados y
+`requirements.txt` fija las versiones exactas con las que se serializó el modelo.
+
+1. Entrar a <https://share.streamlit.io> e iniciar sesión con la cuenta de GitHub.
+2. **New app** → **Deploy a public app from GitHub**.
+3. Completar:
+   - Repository: `ronaldo-duran/Hearth-project`
+   - Branch: `main`
+   - Main file path: `src/inference/app.py`
+4. En **Advanced settings**, elegir Python **3.12** (el del proyecto, según `.python-version`).
+5. **Deploy**. La primera instalación tarda unos minutos.
+
+> **Importante**: no fue posible usar `pyproject.toml` porque Streamlit Community Cloud no
+> instala dependencias con uv. Por eso existe `requirements.txt` en la raíz, con las
+> versiones **fijadas exactamente**: un `scikit-learn` distinto al que serializó
+> `modelo_final.joblib` puede fallar al deserializarlo o cambiar su comportamiento sin
+> avisar.
+
 ## Cómo se usa
 
 1. Complete los 13 campos del examen (todos tienen un valor por defecto razonable).
