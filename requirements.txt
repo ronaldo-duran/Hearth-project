@@ -1,0 +1,15 @@
+# Dependencias para desplegar la demo en Streamlit Community Cloud.
+#
+# El proyecto se gestiona con uv y pyproject.toml; este archivo existe SOLO porque
+# Streamlit Community Cloud no instala desde un pyproject.toml de uv.
+#
+# Las versiones estan fijadas exactamente, no con >=, porque models/modelo_final.joblib
+# se serializo con estas versiones: un scikit-learn distinto puede fallar al
+# deserializar el modelo o cambiar su comportamiento silenciosamente.
+streamlit==1.62.0
+pandas==3.0.5
+scikit-learn==1.9.0
+numpy==2.5.2
+scipy==1.18.0
+joblib==1.5.3
+pyarrow==25.0.1
