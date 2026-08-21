@@ -169,3 +169,14 @@ This project was generated from [@JoseRZapata]'s [data science project template]
 [Pytest]: https://docs.pytest.org/en/latest/
 [Ruff]: https://docs.astral.sh/ruff/
 [UV]: https://docs.astral.sh/uv/
+
+## Demo funcional
+
+Formulario web que expone el modelo entrenado: el usuario ingresa los datos de un examen
+y obtiene la probabilidad de enfermedad coronaria.
+
+```bash
+uv run streamlit run src/inference/app.py
+```
+
+Instrucciones completas en [`src/inference/README.md`](src/inference/README.md).
