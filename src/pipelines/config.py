@@ -10,10 +10,15 @@ RAIZ = Path(__file__).resolve().parents[2]
 RUTA_RAW = RAIZ / "data" / "01_raw" / "corazon.csv"
 RUTA_FEATURES = RAIZ / "data" / "03_primary" / "corazon_limpio.parquet"
 RUTA_MODELO = RAIZ / "models" / "modelo_final.joblib"
+RUTA_PREDICCIONES = RAIZ / "data" / "07_model_output" / "predicciones.csv"
 
 TARGET = "disease"
 SEMILLA = 42
 PROPORCION_TEST = 0.2
+
+# Umbral por debajo de 0.5 segun el analisis del issue #14: en screening cardiaco un falso
+# negativo (dar por sano a un enfermo) cuesta mucho mas que un falso positivo
+UMBRAL_DECISION = 0.411
 
 CATEGORIAS_VALIDAS = {
     "sex": ["Female", "Male"],

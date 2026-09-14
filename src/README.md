@@ -1,5 +1,35 @@
 # Feature/Training/Inference Pipelines
 
+## Pipelines FTI del proyecto
+
+Los tres scripts son autónomos y se ejecutan desde la raíz del repositorio, en este orden:
+
+| Paso | Comando | Entrada | Salida |
+| --- | --- | --- | --- |
+| 1. Features | `uv run python src/pipelines/feature_pipeline/feature_pipeline.py` | `data/01_raw/corazon.csv` | `data/03_primary/corazon_limpio.parquet` |
+| 2. Entrenamiento | `uv run python src/pipelines/training_pipeline/train_pipeline.py` | features del paso 1 | `models/modelo_final.joblib` y `models/modelo_final_metadatos.joblib` |
+| 3. Inferencia | `uv run python src/pipelines/inference_pipeline/inference_pipeline.py <entrada.csv> [salida.csv]` | CSV con pacientes nuevos | CSV con `probabilidad_enfermedad` y `prediccion` (por defecto `data/07_model_output/predicciones.csv`) |
+
+Ejemplo de inferencia con el archivo incluido en el repositorio:
+
+```bash
+uv run python src/pipelines/inference_pipeline/inference_pipeline.py src/inference/ejemplos/pacientes_ejemplo.csv
+```
+
+Validaciones que detienen el pipeline antes de persistir un resultado inválido:
+
+| Pipeline | Módulo | Qué valida |
+| --- | --- | --- |
+| Features | `feature_pipeline/data_validation.py` | Esquema, tipos, rangos, categorías, % de nulos y unicidad |
+| Entrenamiento | `training_pipeline/split_validation.py` | Fuga de datos entre train y test y drift de distribuciones (Evidently) |
+| Entrenamiento | `training_pipeline/model_validation.py` | Validación cruzada estratificada y diagnóstico de over/underfitting |
+| Inferencia | `inference_pipeline/inference_pipeline.py` | Columnas requeridas y registros no vacíos |
+
+Las rutas, los dominios válidos de los datos y el umbral de decisión están en `pipelines/config.py`.
+Las pruebas unitarias se ejecutan con `uv run pytest --cov` y corren en el CI de cada Pull Request.
+
+## Estructura de referencia
+
 File Structure based on:
 
 <https://www.hopsworks.ai/post/mlops-to-ml-systems-with-fti-pipelines>
