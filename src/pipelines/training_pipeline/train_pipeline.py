@@ -31,9 +31,9 @@ from pipelines.config import (
     SEMILLA,
     TARGET,
 )
+from pipelines.training_pipeline.model_validation import METRICA_PRINCIPAL, validar_modelo
 from pipelines.training_pipeline.split_validation import validate_train_test_split
 
-METRICA_PRINCIPAL = "recall"
 N_BINS_EDAD = 4
 
 
@@ -132,11 +132,15 @@ def ejecutar(
 
     modelo = construir_modelo()
     modelo.fit(x_train, y_train)
+    metricas_test = evaluar(modelo, x_test, y_test)
+    # Con overfitting o underfitting severo se lanza el error y el modelo no se guarda
+    validacion = validar_modelo(construir_modelo(), x_train, y_train, metricas_test)
 
     metadatos = {
         "modelo": "Random Forest",
         "metrica_principal": METRICA_PRINCIPAL,
-        "resultados_test": evaluar(modelo, x_test, y_test),
+        "resultados_test": metricas_test,
+        "validacion": validacion,
         "semilla": SEMILLA,
         "columnas_entrada": list(x_train.columns),
         "columnas_con_drift": columnas_con_drift,
@@ -152,5 +156,6 @@ if __name__ == "__main__":
     resultado = ejecutar()
     print(f"Modelo guardado en {RUTA_MODELO}")
     print(f"Columnas con drift individual entre train y test: {resultado['columnas_con_drift']}")
+    print(f"Diagnostico de la validacion del modelo: {resultado['validacion']['diagnostico']}")
     for metrica, valor in resultado["resultados_test"].items():
         print(f"  {metrica:<10}: {valor:.4f}")
