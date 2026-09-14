@@ -24,6 +24,7 @@ from pipelines.config import (
     TARGET,
     VALORES_DISCRETOS,
 )
+from pipelines.feature_pipeline.data_validation import validar_datos
 
 
 def tipar_datos(crudo: pd.DataFrame) -> pd.DataFrame:
@@ -69,6 +70,8 @@ def limpiar_datos(datos: pd.DataFrame) -> pd.DataFrame:
 def ejecutar(ruta_raw: Path = RUTA_RAW, ruta_salida: Path = RUTA_FEATURES) -> pd.DataFrame:
     """Lee los datos RAW, genera las features y las persiste en parquet."""
     features = limpiar_datos(tipar_datos(pd.read_csv(ruta_raw)))
+    # Si alguna regla falla se lanza el error antes de escribir: nunca se persisten datos invalidos
+    validar_datos(features)
 
     ruta_salida.parent.mkdir(parents=True, exist_ok=True)
     features.to_parquet(ruta_salida, index=False)
