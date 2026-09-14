@@ -9,8 +9,11 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[2]
 RUTA_RAW = RAIZ / "data" / "01_raw" / "corazon.csv"
 RUTA_FEATURES = RAIZ / "data" / "03_primary" / "corazon_limpio.parquet"
+RUTA_MODELO = RAIZ / "models" / "modelo_final.joblib"
 
 TARGET = "disease"
+SEMILLA = 42
+PROPORCION_TEST = 0.2
 
 CATEGORIAS_VALIDAS = {
     "sex": ["Female", "Male"],
