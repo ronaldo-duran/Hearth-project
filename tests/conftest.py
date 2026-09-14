@@ -1,7 +1,17 @@
 """Datos sinteticos compartidos por las pruebas de los pipelines."""
 
+import numpy as np
 import pandas as pd
 import pytest
+
+from pipelines.config import (
+    CATEGORIAS_VALIDAS,
+    COLUMNAS_ENTRADA,
+    RANGOS_NUMERICOS,
+    SEMILLA,
+    TARGET,
+    VALORES_DISCRETOS,
+)
 
 
 @pytest.fixture
@@ -38,3 +48,27 @@ def datos_crudos() -> pd.DataFrame:
         "disease",
     ]
     return pd.DataFrame(filas, columns=columnas)
+
+
+@pytest.fixture
+def features_sinteticas() -> pd.DataFrame:
+    """Features limpias (salida del feature pipeline) con filas suficientes para entrenar.
+
+    El target depende de old_peak para que el modelo tenga una senal que aprender, y chol
+    lleva nulos para ejercitar la imputacion.
+    """
+    rng = np.random.default_rng(SEMILLA)
+    n_filas = 120
+    columnas = {}
+    for col in COLUMNAS_ENTRADA:
+        if col in CATEGORIAS_VALIDAS:
+            columnas[col] = rng.choice(CATEGORIAS_VALIDAS[col], n_filas)
+        elif col in VALORES_DISCRETOS:
+            columnas[col] = rng.choice(VALORES_DISCRETOS[col], n_filas).astype(float)
+        else:
+            columnas[col] = rng.uniform(*RANGOS_NUMERICOS[col], n_filas).round(1)
+
+    features = pd.DataFrame(columnas)
+    features.loc[rng.choice(n_filas, 10, replace=False), "chol"] = np.nan
+    features[TARGET] = (features["old_peak"] > 5).astype(int)  # noqa: PLR2004
+    return features
