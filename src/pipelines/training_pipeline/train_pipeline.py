@@ -31,6 +31,7 @@ from pipelines.config import (
     SEMILLA,
     TARGET,
 )
+from pipelines.training_pipeline.split_validation import validate_train_test_split
 
 METRICA_PRINCIPAL = "recall"
 N_BINS_EDAD = 4
@@ -126,6 +127,8 @@ def ejecutar(
 ) -> dict[str, Any]:
     """Entrena, evalua en test y guarda el modelo junto a sus metadatos."""
     x_train, x_test, y_train, y_test = dividir_datos(pd.read_parquet(ruta_features))
+    # Si hay fuga de datos o la particion no es representativa se detiene antes de entrenar
+    columnas_con_drift = validate_train_test_split(x_train, x_test, y_train, y_test)
 
     modelo = construir_modelo()
     modelo.fit(x_train, y_train)
@@ -136,6 +139,7 @@ def ejecutar(
         "resultados_test": evaluar(modelo, x_test, y_test),
         "semilla": SEMILLA,
         "columnas_entrada": list(x_train.columns),
+        "columnas_con_drift": columnas_con_drift,
     }
 
     ruta_modelo.parent.mkdir(parents=True, exist_ok=True)
@@ -147,5 +151,6 @@ def ejecutar(
 if __name__ == "__main__":
     resultado = ejecutar()
     print(f"Modelo guardado en {RUTA_MODELO}")
+    print(f"Columnas con drift individual entre train y test: {resultado['columnas_con_drift']}")
     for metrica, valor in resultado["resultados_test"].items():
         print(f"  {metrica:<10}: {valor:.4f}")
