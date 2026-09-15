@@ -1,0 +1,15 @@
+age,sex,chest_pain,rest_bp,chol,fbs,rest_ecg,max_hr,exang,old_peak,slope,ca,thal,valores_imputados,probabilidad_enfermedad,prediccion
+71,Female,nontypical,160.0,302,0,normal,162,0,0.4,1,2.0,normal,0,0.2118,0
+58,Male,asymptomatic,128.0,216,0,left ventricular hypertrophy ,131,1,2.2,2,3.0,reversable,0,0.9898,1
+65,Female,nonanginal,155.0,269,0,normal,148,0,0.8,1,0.0,normal,0,0.0972,0
+48,Male,nonanginal,124.0,255,1,normal,175,0,0.0,1,2.0,normal,0,0.2201,0
+57,Male,asymptomatic,165.0,289,1,left ventricular hypertrophy ,124,0,1.0,2,3.0,reversable,0,0.9687,1
+35,Male,asymptomatic,120.0,198,0,normal,130,1,1.6,2,0.0,reversable,0,0.9187,1
+58,Male,asymptomatic,146.0,218,0,normal,105,0,2.0,2,1.0,reversable,0,0.9388,1
+44,Male,asymptomatic,120.0,169,0,normal,144,1,2.8,3,0.0,fixed,0,0.7517,1
+74,Female,nontypical,120.0,269,0,left ventricular hypertrophy ,121,1,0.2,1,1.0,normal,0,0.2895,0
+44,Male,asymptomatic,110.0,197,0,left ventricular hypertrophy ,177,0,0.0,1,1.0,normal,0,0.6702,1
+64,Male,asymptomatic,120.0,246,0,left ventricular hypertrophy ,96,1,2.2,3,1.0,normal,0,0.8641,1
+63,Female,asymptomatic,124.0,197,0,normal,136,1,0.0,2,0.0,normal,0,0.5302,1
+52,Male, typical,,230,0,normal,160,0,1.2,2,,normal,2,0.2147,0
+60,Female,asymptomatic,138.0,xyz,0,normal,120,1,3.0,2,2.0,desconocido,2,0.8111,1
