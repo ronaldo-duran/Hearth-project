@@ -95,6 +95,19 @@ El mismo resultado se obtiene sin la app, con el inference pipeline:
 uv run python src/pipelines/inference_pipeline/inference_pipeline.py src/inference/ejemplos/pacientes_ejemplo.csv
 ```
 
+## Evidencia de funcionamiento
+
+Capturas de la app publicada en Streamlit Community Cloud.
+
+**Predicción individual:** formulario con el resultado de la predicción.
+
+![Predicción individual en la app publicada](evidencia/01-prediccion-individual.png)
+
+**Predicción por lotes:** `ejemplos/pacientes_ejemplo.csv` cargado, con las métricas del lote,
+la tabla de predicciones y el botón de descarga.
+
+![Predicción por lotes en la app publicada](evidencia/02-prediccion-lotes.png)
+
 ## Qué necesita para funcionar
 
 La app usa el inference pipeline (`src/pipelines/inference_pipeline`), que carga dos artefactos
