@@ -172,11 +172,24 @@ This project was generated from [@JoseRZapata]'s [data science project template]
 
 ## Demo funcional
 
-Formulario web que expone el modelo entrenado: el usuario ingresa los datos de un examen
-y obtiene la probabilidad de enfermedad coronaria.
+**App publicada:** <https://hearth-project-kbhgwhjjcsppxjrrrmfknp.streamlit.app/>
+
+Aplicación web en Streamlit que expone el modelo entrenado, con dos modos:
+
+- **Predicción individual**: el usuario ingresa los datos de un examen y obtiene la
+  probabilidad de enfermedad coronaria.
+- **Predicción por lotes**: el usuario sube un CSV con varios pacientes y visualiza o descarga
+  las predicciones.
 
 ```bash
 uv run streamlit run src/inference/app.py
 ```
 
-Instrucciones completas en [`src/inference/README.md`](src/inference/README.md).
+Instrucciones completas, formato del CSV, archivos de ejemplo y evidencia de funcionamiento en
+[`src/inference/README.md`](src/inference/README.md).
+
+## Pipelines FTI
+
+El flujo de producción está en tres scripts autónomos (feature, training e inference pipeline),
+con validación de datos, de la partición train/test y del modelo. Cómo ejecutarlos en
+[`src/README.md`](src/README.md).
